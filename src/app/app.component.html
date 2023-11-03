@@ -1,0 +1,95 @@
+<div class="container-fluid">
+    <header class="bg-danger rounded sticky-top">
+        <div class="d-flex justify-content-between mt-1 text-white p-1 ">
+            <h2>Amazon Shopping</h2>
+            <nav>
+                <button class="btn text-white" (click)='GetCategories("all")'>Home</button>
+                <button class="btn text-white" (click)='GetCategories("electronics")'>Electronics</button>
+                <button class="btn text-white" (click)='GetCategories("mens")'>Men's Clothing</button>
+                <button class="btn text-white" (click)='GetCategories("womens")'>Women's Clothing</button>
+                <button class="btn text-white" (click)='GetCategories("jewelery")'>jewelery</button>
+            </nav>
+            <div>
+                <button class="btn text-white"><span class="bi bi-search"></span></button>
+                <button class="btn text-white"><span class="bi bi-heart"></span></button>
+                <button class="btn text-white"><span class="bi bi-person"></span></button>
+                <button (click)="showCart()" class="btn text-white position-relative me-2">
+                    <span class="bi bi-cart"></span>
+                    <span class="badge rounded-circle bg-dark position-absolute">{{cartitemscount}}</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <section>
+        <nav class="row">
+            <div class="col-3  mt-2 overflow-auto" style="height:717px;">
+                <div class="fixed bg-light">
+                    <label for="" class="form-label"><strong>Select Categories</strong></label>
+                    <select name="" id="" class="form-select" (change)="GetCategories(cat.value)" ngModel #cat="ngModel">
+                        <option value="">Select Categories</option>
+                        <option *ngFor="let item of categories" [value]="item">{{item|uppercase}}</option>
+                    </select>
+                </div>
+                <div *ngIf="cartitemVisible" class="d-flex flex-wrap">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Preview</th>
+                                <th>Price</th>
+                                <th>Del-t</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cartitems; let i=index">
+                                <td>{{item.title}}</td>
+                                <td>
+                                    <img [src]="item.image" width="50px" height="65px" alt="">
+                                </td>
+                                <td>{{item.price}}</td>
+                                <td>
+                                    <button (click)="delCart(i,item.price)" class="btn btn-danger"><span class="bi bi-trash"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-dark fixed-bottom text-white position-sticky bottom-0">
+                                <th>Total Price</th>
+                                <th></th>
+                                <th>{{total | number:'0.2'}}</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <main class="col-9 d-flex flex-wrap mt-2 overflow-auto" style="height:717px;">
+                <div *ngFor="let item of products" class="card border-primary p-1" style="width: 230px;">
+                    <img [src]="item.image" height="180px" class="card-img-top" alt="">
+                    <div class="card-header" style="height: 150px;">
+                        <p>{{item.title}}</p>
+                    </div>
+                    <div class="card-body">
+                        <dl>
+                            <dt>Price</dt>
+                            <dd>{{item.price}}</dd>
+                            <dt>Rating</dt>
+                            <dd>
+                                <span class="bi bi-star-fill text-success"></span>
+                                {{item.rating.rate}}[{{item.rating.count}}]
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer">
+                        <button (click)="addCart(item.id)" class="btn btn-primary">Add To Cart</button>
+                    </div>
+                </div>
+            </main>
+        </nav>
+    </section>
+    <footer>
+        <div class="bg-info fixed-bottom rounded d-flex justify-content-center p-1 mt-1" style="height: 50px;">
+            <h3>&copy; Copyright By Altaf</h3>
+        </div>
+    </footer>
+</div>
